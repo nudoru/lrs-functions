@@ -22,7 +22,8 @@ let Task = require('data.task'),
     group1,
     kalturaGroup1,
     kalturaGroup2ByVideo,
-    kalturaGroup2ByUser
+    kalturaGroup2ByUser,
+    kalturaMediaProgressGTE
   } = require('./lib/learningservices/AggregateStages'),
   {
     log,
@@ -49,13 +50,14 @@ const queryStatements = () => {
     project(),
     match([
       verbIdsAny(['http://activitystrea.ms/schema/1.0/watch']),
-      actorMBox(''),
-      objectIdsAny(['']),
+      //actorMBox(''),
+      //objectIdsAny(['']),
+      kalturaMediaProgressGTE(100),
       dateRange('2019-03-25', '2020-04-08'),
     ]),
     sortDsc(),
     kalturaGroup1(),
-    kalturaGroup2ByUser()
+    kalturaGroup2ByVideo()
   ]);
 
   runTask(requestAggregate(config, vquery));
