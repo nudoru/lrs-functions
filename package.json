@@ -1,5 +1,5 @@
 {
-  "name": "totarawebservices",
+  "name": "lrsfunctions",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Matt Perkins <mperkins@redhat.com>",
+  "author": "Matt Perkins <hello@mattperkins.me>",
   "license": "MIT",
   "dependencies": {
     "data.either": "^1.5.0",
     "data.maybe": "^1.2.2",
     "data.task": "^3.1.1",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.4",
     "node-fetch": "^1.6.3",
     "ramda": "^0.23.0",
     "xmlhttprequest": "^1.8.0"
