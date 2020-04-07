@@ -13,12 +13,16 @@ let Task = require('data.task'),
   } = require('./lib/learningservices/LRS'),
   {
     actorMBox,
+    objectIdsAny,
     verbIdsAny,
     dateRange,
     match,
     project,
     sortDsc,
-    simpleGroup,
+    group1,
+    kalturaGroup1,
+    kalturaGroup2ByVideo,
+    kalturaGroup2ByUser
   } = require('./lib/learningservices/AggregateStages'),
   {
     log,
@@ -30,35 +34,43 @@ let Task = require('data.task'),
   } = require('./lib/utils');
 
 /*
-Agregate queries
-
-
-
-{
-      $match: {
-        "statement.actor.mbox": "mailto:mperkins@redhat.com"
-      }
-    }
-*/
+Kaltura Verbs
+https://brindlewaye.com/xAPITerms/verbs/loggedin/
+http://activitystrea.ms/schema/1.0/watch
+http://activitystrea.ms/schema/1.0/play
+http://id.tincanapi.com/verb/paused
+http://adlnet.gov/expapi/verbs/interacted
+Seek in a video - http://id.tincanapi.com/verb/skipped
+Looked at a channel page - http://id.tincanapi.com/verb/viewed
+ */
 
 const queryStatements = () => {
   let vquery = createAggregateQuery([
-    project,
+    project(),
     match([
-      actorMBox('mperkins@redhat.com'),
-      dateRange('2019-03-25', '2020-03-31'),
+      verbIdsAny(['http://activitystrea.ms/schema/1.0/watch']),
+      actorMBox(''),
+      objectIdsAny(['']),
+      dateRange('2019-03-25', '2020-04-08'),
     ]),
-    sortDsc,
-    simpleGroup,
+    sortDsc(),
+    kalturaGroup1(),
+    kalturaGroup2ByUser()
   ]);
 
   runTask(requestAggregate(config, vquery));
+  // writeTask(requestAggregate(config, vquery)); // output to lib/debug.log
 };
 
-//setLRSOptions(config);
-// sendTestStatement();
+
 queryStatements();
 
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+// sendTestStatement();
 //['statement.verb.display.en-US']: 'loggedin'
 
 // console.log(createAggregateQuery({['statement.verb.display.en-US']: 'completed'}))
@@ -67,7 +79,7 @@ queryStatements();
 // writeTask(requestAggregate(config.webservice.lrs, createAggregateQuery()));
 
 // writeTask(requestAggregate(config.webservice.lrs, createAggregateQuery({
-//  ['statement.actor.mbox']        : 'mailto:mperkins@redhat.com'
+//  ['statement.actor.mbox']        : 'mailto:blah@blah.com'
 // })));
 
 // requestStatements(config)(createAgentEmailQuery('mperkins@redhat.com')).fork(
