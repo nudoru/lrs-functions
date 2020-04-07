@@ -14,4 +14,4 @@ Don't put any paths on the end point. The code will append the correct path for 
 
 ## Current Dev Focus
 
-Aggregate queries using the MongoDB pipeline api.
+Using a collection of real-world Kaltura statements, perform aggregate queries using the MongoDB pipeline api.
